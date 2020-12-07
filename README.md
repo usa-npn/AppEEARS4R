@@ -1,2 +1,63 @@
+
 # AppEEARS4R
-Grab data from AppEEARS and pull it into R
+
+`AppEEARS4R` is an R client for interacting with the LP DAAC’s
+Application for Extracting and Exploring Analysis Ready Samples
+[(AρρEEARS)](https://lpdaac.usgs.gov/tools/appeears/) interface.
+AppEEARS allows for users to easily subset DAAC datasets spacially and
+temporally. This package provides a progammatic interface for submitting
+requests to and receiving data from AppEEARS.
+
+Available data sets can be explored on the [LP DAAC
+website](https://lpdaac.usgs.gov/product_search/). Accessing data
+requires an [Eartdata Login
+account](https://urs.earthdata.nasa.gov/users/new?_ga=2.146602164.1614539679.1607373041-824518196.1579722432/).
+
+## Installation
+
+This package is not currently available on CRAN and must be installed
+from source.
+
+``` r
+install.packages("devtools")
+library('devtools')
+devtools::install_github("usa-npn/AppEEARS4R")
+```
+
+``` r
+library('AppEEARS4R')
+```
+
+## The Basics
+
+This package includes a series of functions for interacting with
+AppEEARS at each step of establishing a session, making a request, and
+downloading the results. There’s also a coordinating function that ties
+all the subodrindate functions together. The most appropriate way to use
+the package depends on the size of your requests and your use case.
+Below is an example of using the coordinating function.
+
+``` r
+point_df <-data.frame(lat=c(42.3),long=c(-86.4),id=c(1),category=c("Test"))
+appeears_get_data(your_user_name,your_pass_word,"MyTest","2014-01-01","2014-01-31","MCD12Q2.006",c("Greenup"),type="point",point_df,base_path="./data/")
+```
+
+This will download the “Greenup” layer data for the given point from the
+MCD12Q2.006 product into the “data” folder.
+
+## Acknowledgements
+
+This code was developed, in part, as part of the integrated
+[Pheno-Synthesis Software Suite
+(PS3)](https://git.earthdata.nasa.gov/projects/APIS/repos/pheno-synthesis-software-suite/browse).
+The authors acknowledge funding for this work through NASA’s AIST
+program (80NSSC17K0582, 80NSSC17K0435, 80NSSC17K0538, and
+80GSFC18T0003). The University of Arizona and the USA National Phenology
+Network’s efforts with this package are supported in part by US
+Geological Survey (G14AC00405, G18AC00135) and the US Fish and Wildlife
+Service (F16AC01075 and F19AC00168). The development of PhenoCam was
+supported by the Northeastern States Research Cooperative, the NSF
+Macrosystems Biology program (EF-1065029 and EF-1702697), the Department
+of Energy Regional and Global Climate Modeling program (DE-SC0016011),
+the US National Park Service Inventory and Monitoring Program and the US
+Geological Survey (G10AP00129, G16AC00224).

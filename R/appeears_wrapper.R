@@ -25,17 +25,17 @@
 #'
 #' @param layers layer names to pull from the product as specified in the product parameter. A list of layers
 #' available with each product can be found here: https://lpdaacsvc.cr.usgs.gov/appeears/products
-#' Takes a vecotor of strings, all of which should perfectly match the layer names specified in the above URL.
+#' Takes a vector of strings, all of which should perfectly match the layer names specified in the above URL.
 #' 
 #' @param type Takes 'polygon' or 'point' as input. Specify if the request is for an area or a series of points.
 #' 
 #' @param points Data frame containing the following columns: lat, long, id, category Used to specify either the boundaries
-#' of a polygone or a series of points depending on the input of the 'type' paramater. lat/long correspond with a series of 
+#' of a polygon or a series of points depending on the input of the 'type' paramater. lat/long correspond with a series of 
 #' spatial coordinates. id is an arbitrary identifier for each point and category seems to be an arbitrary string required by
 #' AppEEARs but doesn't otherwise do anything, AFAIK.
 #' 
 #' @param base_path Directory to direct file downloads. Defaults to the working path. Paths relative to the working path can be
-#' used with the following noation "./" Be sure to terminate the path with a backslash, e.g. "./my-data-files"
+#' used with the following notation "./" Be sure to terminate the path with a backslash, e.g. "./my-data-files"
 #' 
 #' @param wait_time integer greater than or equal to 30. Specifies the number of seconds to wait between checks to see if the 
 #' data bundle is ready after submitting a job. Values less than 30 are set to 30 seconds. Defaults to 60 seconds.
