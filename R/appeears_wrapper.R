@@ -315,7 +315,12 @@ appeears_download_bundle_files <- function(task_id, bundle, base_path="./"){
   for (file in bundle$files){
     url <- paste0("https://lpdaacsvc.cr.usgs.gov/appeears/api/bundle/", task_id$task_id, "/",file$file_id)
     path <- paste0(base_path, gsub("/","-",file$file_name))
-    download.file(url,destfile=path,method="libcurl", mode="wb")
+    response <- httr::RETRY("GET", url)
+    httr::stop_for_status(response)
+    content <- httr::content(response, as = "raw")
+    destfile = file(path, open = "wb")
+    writeBin(content, destfile)
+    close(destfile)
   }
 
 }
