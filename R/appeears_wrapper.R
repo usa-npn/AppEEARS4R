@@ -310,21 +310,25 @@ appeears_fetch_bundle <- function(task_id, token){
 #' used with the following noation "./" Be sure to terminate the path with a backslash, e.g. "./my-data-files"
 #' 
 #' @export
-appeears_download_bundle_files <- function(task_id, bundle, base_path="./"){
-
-  for (file in bundle$files){
+appeears_download_bundle_files <- function(task_id, bundle, base_path="./", overwrite = FALSE){
+  furrr::future_walk(bundle$files, function(file){
     url <- paste0("https://lpdaacsvc.cr.usgs.gov/appeears/api/bundle/", task_id$task_id, "/",file$file_id)
     path <- paste0(base_path, gsub("/","-",file$file_name))
-    response <- httr::RETRY("GET", url)
-    httr::stop_for_status(response)
-    content <- httr::content(response, as = "raw")
-    destfile = file(path, open = "wb")
-    writeBin(content, destfile)
-    close(destfile)
-  }
-
+    
+    # Determine jump existing file or jumping
+    dl_or_jump <-
+      ifelse(overwrite, TRUE, !file.exists(path))
+    
+    if(dl_or_jump) {
+      response <- httr::RETRY("GET", url)
+      httr::stop_for_status(response)
+      content <- httr::content(response, as = "raw")
+      destfile = file(path, open = "wb")
+      writeBin(content, destfile)
+      close(destfile)
+    }
+  })
 }
-
 
 
 #' Get Task Status
@@ -350,6 +354,7 @@ appeears_task_status <- function (token, task_id){
   status_response <- httr::content(response)
   status_response
 }
+
 
 #' Is Task Done
 #'
