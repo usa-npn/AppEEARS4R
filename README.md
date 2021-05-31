@@ -1,4 +1,3 @@
-
 # AppEEARS4R
 
 `AppEEARS4R` is an R client for interacting with the LP DAAC’s
@@ -19,9 +18,11 @@ This package is not currently available on CRAN and must be installed
 from source.
 
 ``` r
-install.packages("devtools")
-library('devtools')
-devtools::install_github("usa-npn/AppEEARS4R")
+if (!require("remotes", character.only = TRUE)) {
+    install.packages("remotes")
+    library("remotes", character.only = TRUE)
+    }
+remotes::install_github("usa-npn/AppEEARS4R")
 ```
 
 ``` r
